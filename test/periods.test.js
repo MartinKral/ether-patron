@@ -12,12 +12,36 @@ contract('Ether Donator', function (accounts) {
     beforeEach(deployContract);
 
     describe("Check periods", () => {
-        const firstDelay = 1000;
-        const secondDelay = 5500;
-        const thirdDelay = 11000;
+        const oneSecond = 1;
+        const sevenSeconds = 7;
+        const elevenSeconds = 11;        
 
-        it("checks periods after 1 sec delay", async function () {    
-            await sleep(firstDelay);
+        it("checks  time left without delay", async function () {            
+
+            const periodTimeLeft = await this.contract.getPeriodTimeLeft();
+
+            const expectedTimeLeft = 5;
+            assert.equal(periodTimeLeft, expectedTimeLeft, "Unexpected period time left");
+        });
+
+        it("checks time left after 1 sec", async function () { 
+            await sleepSeconds(oneSecond);
+            const periodTimeLeft = await this.contract.getPeriodTimeLeft();
+
+            const expectedTimeLeft = 4;
+            assert.equal(periodTimeLeft, expectedTimeLeft, "Unexpected period time left");
+        });
+
+        it("checks time left after 7 sec", async function () { 
+            await sleepSeconds(sevenSeconds);
+            const periodTimeLeft = await this.contract.getPeriodTimeLeft();
+
+            const expectedTimeLeft = 3;
+            assert.equal(periodTimeLeft, expectedTimeLeft, "Unexpected period time left");
+        });
+
+        it("checks periods after 1 sec", async function () {    
+            await sleepSeconds(oneSecond);
 
             const expectedPeriod = 0;
 
@@ -25,8 +49,8 @@ contract('Ether Donator', function (accounts) {
             assert.equal(currentPeriod, expectedPeriod, "Unexpected period ID");
         });
 
-        it("checks periods after 5.5 sec delay", async function () {
-            await sleep(secondDelay);
+        it("checks periods after 5.5 sec", async function () {
+            await sleepSeconds(sevenSeconds);
 
             const expectedPeriod = 1;
 
@@ -34,8 +58,8 @@ contract('Ether Donator', function (accounts) {
             assert.equal(currentPeriod, expectedPeriod, "Unexpected period ID");
         });
 
-        it("checks periods after 11 sec delay", async function () {
-            await sleep(thirdDelay);
+        it("checks periods after 11 sec", async function () {
+            await sleepSeconds(elevenSeconds);
 
             const expectedPeriod = 2;
 
@@ -44,7 +68,7 @@ contract('Ether Donator', function (accounts) {
         });
     });
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+    function sleepSeconds(s) {
+        return new Promise(resolve => setTimeout(resolve, s * 1000 + 1));
     }
 });

@@ -84,6 +84,15 @@ contract EtherDonator is Ownable {
         msg.sender.transfer(sumToWithdraw);
     }
 
+    function getPeriodDuration() external view returns (uint256) {
+        return periodDuration;
+    }
+
+    function getPeriodTimeLeft() external view returns (uint256) {
+        uint256 endOfThisPeriod = startTimestamp.add(getCurrentPeriod().add(1).mul(periodDuration));
+        return endOfThisPeriod.sub(now);       
+    }
+
     function getMinDonation() external view returns (uint256) {
         return minDonation;
     }
