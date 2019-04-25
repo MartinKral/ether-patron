@@ -10,11 +10,11 @@
 * Allows leaderboard both for current period and all periods
 * Set up minimum donation per period
 
+(*)Requires server, which will get signature from user, read the contract and act on that (`getDonationInPeriod`) 
+
 ## Benefits for the user
 * Can donate for current + X future periods
 * Can cancel funding at any time and withdraw all future donations - even if contract owner decides to shut down their website
-
-(*)Requires server, which will get signature from user, read the contract and act on that (`getDonationInPeriod`) 
 
 ## TODO:
 * More tests
