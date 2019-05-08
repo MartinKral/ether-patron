@@ -1,4 +1,4 @@
-# Ether Donator - Trustless open source crowdfunding
+# EtherPatron.com - Trustless open source crowdfunding
 * Withdrawing is based on periods (chosen at contract deployment).
 * Owner can withdraw only current or previous periods.
 
@@ -19,4 +19,4 @@
 ## TODO:
 * More tests
 * Web interface
-* Example website
+
