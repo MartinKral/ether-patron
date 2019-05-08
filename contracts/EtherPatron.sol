@@ -4,13 +4,16 @@ import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 
-contract EtherDonator is Ownable {
+contract EtherPatron is Ownable {
     uint256 private startTimestamp;
     uint256 private periodDuration;
-
+    uint256 private periodTarget; 
+    bytes32 private purpose;
+    
     uint256 private minDonation = 0.001 ether;    
 
-    uint256 private lastWithdrawnPeriod = 0;
+    uint256 private lastWithdrawnPeriod = 0;   
+    
 
     using SafeMath for uint256;
 
@@ -21,9 +24,11 @@ contract EtherDonator is Ownable {
     address[] private donators;
     mapping(address => bool) private addressToIsDonator;
     
-    constructor(uint256 _startTimestamp, uint256 _periodDuration) public {
+    constructor(uint256 _startTimestamp, uint256 _periodDuration, uint256 _periodTarget, bytes32 _purpose) public {
         startTimestamp = _startTimestamp;
         periodDuration = _periodDuration;
+        purpose = _purpose;
+        periodTarget = _periodTarget;
     }
 
     function donate(uint8 _periods) external payable {
@@ -62,6 +67,14 @@ contract EtherDonator is Ownable {
 
     function setMinDonation(uint256 _minDonation) external onlyOwner {
         minDonation = _minDonation;
+    }
+
+    function setPeriodTarget(uint256 _periodTarget) external onlyOwner {
+        periodTarget = _periodTarget;
+    }
+
+    function setPurpose(bytes32 _purpose) external onlyOwner {
+        purpose = _purpose;
     }
 
     function withdrawPreviousPeriods() external onlyOwner {

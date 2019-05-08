@@ -1,6 +1,5 @@
-var etherDonator = artifacts.require("./EtherDonator.sol");
+var etherPatron = artifacts.require('./EtherPatron.sol')
 
-
-module.exports = function(deployer) {
-  deployer.deploy(etherDonator, 0, 0);  
-};
+module.exports = function (deployer) {
+  deployer.deploy(etherPatron, 0, 0, 0, [])
+}
