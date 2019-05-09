@@ -1,9 +1,9 @@
 
 import $ from 'jquery'
 import 'bootstrap'
-import { getWeb3Instance, getMainAccount } from '../utils/web3Wrapper'
+import { getWeb3Instance, getMainAccount } from './utils/web3Wrapper'
 
-import etherPatronJson from '../../build/contracts/EtherPatron.json'
+import etherPatronJson from '../build/contracts/EtherPatron.json'
 
 let web3
 let mainAddress

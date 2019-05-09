@@ -1,6 +1,7 @@
 module.exports = {
   entry: {
-    app: './src/app/app.js'
-    // adminApp: './src/admin/admin.js'
+    app: './src/app.js',
+    interact: './src/interact.js',
+    admin: './src/admin.js'
   }
 }
