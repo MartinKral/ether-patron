@@ -11,8 +11,9 @@ export async function getWeb3Instance () {
   } else if (window.web3) {
     web3 = new Web3(web3.currentProvider)
   } else {
-    console.log('App needs access to MM before deploying new giveaway!')
-    // web3 = new Web3('wss://ropsten.infura.io/ws/v3/8eb854bf2d5f412db783635b320d1771');
+    console.log('Infura node')
+    const rpcUrl = 'mainnet.infura.io/v3/119dddbcfe69465c830db6f165505bd3'
+    web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl))
   }
   return web3
 }

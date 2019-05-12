@@ -28,7 +28,7 @@ contract('Ether Donator', function (accounts) {
     })
 
     it('checks the donation', async function () {
-      let donation = await this.contract.getDonationInPeriod(donatorAddress, donatedInPeriod)
+      let donation = await this.contract.getAddressDonationInPeriod(donatorAddress, donatedInPeriod)
       expect(donation).to.eq.BN(weiToDonate)
     })
 
@@ -86,6 +86,12 @@ contract('Ether Donator', function (accounts) {
     before(deployContract)
     it('Donate for five period', async function () {
       await this.contract.donate(periods, { from: donatorAddress, value: weiDonation })
+    })
+
+    it('checks total donations in period', async function () {
+      const weiValue = new BN(web3.utils.toWei('0.001', 'ether'))
+      const totalDonations = await this.contract.getTotalPeriodDonations(0)
+      expect(totalDonations).to.eq.BN(weiValue)
     })
 
     it('does not allow to withdraw previous periods yet', async function () {

@@ -6,18 +6,19 @@ import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract EtherPatron is Ownable {
     uint256 private startTimestamp;
-    uint256 private periodDuration;
-    uint256 private periodTarget; 
-    bytes32 private purpose;
+    uint256 public periodDuration;
+    uint256 public periodTarget; 
+    bytes32 public purpose;
     
-    uint256 private minDonation = 0.001 ether;    
+    uint256 public minDonation = 0.001 ether;    
 
-    uint256 private lastWithdrawnPeriod = 0;   
+    uint256 public lastWithdrawnPeriod = 0;   
     
 
     using SafeMath for uint256;
 
     mapping(uint256 => uint256) private periodToAllowedWithdrawal; 
+    mapping(uint256 => uint256) private periodToDonations;
 
     mapping(bytes32 => uint256) private hashedDonations;
 
@@ -42,6 +43,8 @@ contract EtherPatron is Ownable {
             uint256 targetPeriod = currentPeriod + i;
             periodToAllowedWithdrawal[targetPeriod] = periodToAllowedWithdrawal[targetPeriod].add(donationPerPeriod);
 
+            periodToDonations[targetPeriod] = periodToDonations[targetPeriod].add(donationPerPeriod);
+
             bytes32 hashedDonation = keccak256(abi.encodePacked(msg.sender, targetPeriod));
             hashedDonations[hashedDonation] = hashedDonations[hashedDonation].add(donationPerPeriod);
         }
@@ -58,8 +61,11 @@ contract EtherPatron is Ownable {
         // Starts at 1 >> can't refund current period
         for (uint8 i = 1; i <= _periods; i++) {
             bytes32 hashedDonation = keccak256(abi.encodePacked(msg.sender, currentPeriod + i));
+
+            periodToDonations[currentPeriod + i] = periodToDonations[currentPeriod + i].sub(hashedDonations[hashedDonation]);
+
             sumToRefund = sumToRefund.add(hashedDonations[hashedDonation]);
-            hashedDonations[hashedDonation] = 0;
+            hashedDonations[hashedDonation] = 0;            
         }
 
         msg.sender.transfer(sumToRefund);
@@ -97,8 +103,8 @@ contract EtherPatron is Ownable {
         msg.sender.transfer(sumToWithdraw);
     }
 
-    function getPeriodDuration() external view returns (uint256) {
-        return periodDuration;
+    function getTotalPeriodDonations(uint256 _periodId) external view returns (uint256) {
+        return periodToDonations[_periodId];
     }
 
     function getPeriodTimeLeft() external view returns (uint256) {
@@ -106,11 +112,7 @@ contract EtherPatron is Ownable {
         return endOfThisPeriod.sub(now);       
     }
 
-    function getMinDonation() external view returns (uint256) {
-        return minDonation;
-    }
-
-    function getDonationsOfAddress(address _address) external view returns (uint256) {
+    function getAllDonationsOfAddress(address _address) external view returns (uint256) {
         uint256 currentPeriod = getCurrentPeriod();
         uint256 totalDonated = 0;
         for (uint256 i = 0; i <= currentPeriod; i++) {
@@ -119,13 +121,13 @@ contract EtherPatron is Ownable {
         }
 
         return totalDonated;
-    }
+    }   
 
     function getDonators() external view returns (address[] memory) {
         return donators;
     }
 
-    function getDonationInPeriod(address _address, uint256 _periodId) external view returns (uint256) {
+    function getAddressDonationInPeriod(address _address, uint256 _periodId) external view returns (uint256) {
         return hashedDonations[keccak256(abi.encodePacked(_address, _periodId))];
     }
 
