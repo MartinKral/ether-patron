@@ -96,7 +96,7 @@ async function readDonations () {
 
 async function donate () {
   const donatePeriods = $('#donatePeriods').val().trim() === '' ? '1' : $('#donatePeriods').val().trim()
-  const sumToDonate = $('#sumToDonate').val().trim() === '' ? '0.01' : $('#donatePeriods').val().trim()
+  const sumToDonate = $('#sumToDonate').val().trim() === '' ? '0.01' : $('#sumToDonate').val().trim()
 
   mainAddress = await getMainAccount(web3)
 
