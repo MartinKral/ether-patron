@@ -25,7 +25,7 @@ $('#refundBtn').on('click', () => {
 
 async function init () {
   web3 = await getWeb3Instance()
-  // mainAddress = await getMainAccount(web3)
+  mainAddress = await getMainAccount(web3)
 
   linkContracts()
   readData()
@@ -82,7 +82,6 @@ async function readTimeProgress () {
 }
 
 async function readDonations () {
-  mainAddress = await getMainAccount(web3)
   const totalDonated = await etherPatronContract.methods.getAllDonationsOfAddress(mainAddress).call()
   const ethDonated = web3.utils.fromWei(totalDonated.toString(), 'ether')
   console.log('Total donated ' + ethDonated)
@@ -98,8 +97,6 @@ async function donate () {
   const donatePeriods = $('#donatePeriods').val().trim() === '' ? '1' : $('#donatePeriods').val().trim()
   const sumToDonate = $('#sumToDonate').val().trim() === '' ? '0.01' : $('#sumToDonate').val().trim()
 
-  mainAddress = await getMainAccount(web3)
-
   etherPatronContract.methods.donate(donatePeriods).send({ from: mainAddress, value: web3.utils.toWei(sumToDonate, 'ether') })
     .once('confirmation', function (confNumber, receipt) {
       console.log('Confirmation ' + receipt.toString())
@@ -111,7 +108,7 @@ async function readRefund () {
 
   let totalToRefund = new BN()
   for (let index = 1; index <= 12; index++) {
-    const donationPerPeriod = await etherPatronContract.methods.getAddressDonationInPeriod(mainAddress, currentPeriod + index).call()
+    const donationPerPeriod = await etherPatronContract.methods.getAddressDonationInPeriod(mainAddress, parseInt(currentPeriod) + index).call()
     console.log('Donation per period ' + donationPerPeriod)
     totalToRefund = totalToRefund.add(new BN(donationPerPeriod.toString()))
   }
