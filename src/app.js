@@ -72,7 +72,7 @@ function removeHttp (url) {
 }
 
 function convertDaysToSeconds (days) {
-  return days * 24 * 60 * 60
+  return Math.ceil(days * 24 * 60 * 60)
 }
 
 function getMondayTimeStamp () {

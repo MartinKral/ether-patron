@@ -112,6 +112,7 @@ async function readRefund () {
   let totalToRefund = new BN()
   for (let index = 1; index <= 12; index++) {
     const donationPerPeriod = await etherPatronContract.methods.getAddressDonationInPeriod(mainAddress, currentPeriod + index).call()
+    console.log('Donation per period ' + donationPerPeriod)
     totalToRefund = totalToRefund.add(new BN(donationPerPeriod.toString()))
   }
 

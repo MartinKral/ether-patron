@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Ether Patron - Admin</title>
+  </head>
+  <body>    
+    <div class="d-flex justify-content-center">
+        
+        <div class="grid">
+            
+            <div class="row justify-content-center m-1 mt-3" >
+                <h3>
+                    Ether Patron Admin                   
+                </h3>        
+            </div>
+            <div class="row justify-content-center m-1">
+                <h3>
+                <small class="text-muted">Withdraw donations</small>
+              </h3>
+            </div>
+            <div class="row justify-content-center m-2">
+              <b>Current period:</b>
+            </div>
+            <div class="row justify-content-center m-1" id="currentDonations">
+              0 Ether
+            </div>
+            <div class="row justify-content-center m-1">
+              <button type="button" class="btn btn-primary" id="withdraw-current">Withdraw!</button>             
+          </div>
+            <div class="row justify-content-center m-2 mt-4">
+              <b>Previous periods:</b>
+            </div>
+            <div class="row justify-content-center m-1" id="previousDonations">
+              0 Ether
+            </div>
+            <div class="row justify-content-center m-1">
+              <button type="button" class="btn btn-primary" id="withdraw-previous">Withdraw!</button>             
+          </div>
+        </div>  
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>

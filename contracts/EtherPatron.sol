@@ -103,6 +103,10 @@ contract EtherPatron is Ownable {
         msg.sender.transfer(sumToWithdraw);
     }
 
+    function getAllowedWithdrawalInPeriod(uint256 _periodId) external view returns (uint256) {
+        return periodToAllowedWithdrawal[_periodId];
+    }
+
     function getTotalPeriodDonations(uint256 _periodId) external view returns (uint256) {
         return periodToDonations[_periodId];
     }
@@ -116,8 +120,7 @@ contract EtherPatron is Ownable {
         uint256 currentPeriod = getCurrentPeriod();
         uint256 totalDonated = 0;
         for (uint256 i = 0; i <= currentPeriod; i++) {
-            bytes32 hashedDonation = keccak256(abi.encodePacked(_address, currentPeriod + i));
-            totalDonated = totalDonated.add(hashedDonations[hashedDonation]);
+            totalDonated = totalDonated.add(getAddressDonationInPeriod(_address, i));
         }
 
         return totalDonated;
@@ -127,7 +130,7 @@ contract EtherPatron is Ownable {
         return donators;
     }
 
-    function getAddressDonationInPeriod(address _address, uint256 _periodId) external view returns (uint256) {
+    function getAddressDonationInPeriod(address _address, uint256 _periodId) public view returns (uint256) {
         return hashedDonations[keccak256(abi.encodePacked(_address, _periodId))];
     }
 
