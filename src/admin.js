@@ -25,6 +25,11 @@ async function init () {
   web3 = await getWeb3Instance()
   mainAddress = await getMainAccount(web3)
 
+  if (!mainAddress) {
+    console.log('Length ' + $('.metaMaskError').length)
+    $('.metaMaskError').removeClass('d-none')
+  }
+
   linkContracts()
   readData()
 }
@@ -55,10 +60,12 @@ async function readData () {
 
 function withdrawCurrent () {
   console.log('WITHDRAW CURRENT')
+  if (!mainAddress) return
   etherPatronContract.methods.withdrawCurrentPeriod().send({ from: mainAddress })
 }
 
 function withdrawPrevious () {
   console.log('WITHDRAW PREVIOUS')
+  if (!mainAddress) return
   etherPatronContract.methods.withdrawPreviousPeriods().send({ from: mainAddress })
 }

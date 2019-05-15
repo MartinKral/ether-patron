@@ -27,6 +27,11 @@ async function init () {
   web3 = await getWeb3Instance()
   mainAddress = await getMainAccount(web3)
 
+  if (!mainAddress) {
+    console.log('Length ' + $('.metaMaskError').length)
+    $('.metaMaskError').removeClass('d-none')
+  }
+
   linkContracts()
   readData()
 }
@@ -45,8 +50,9 @@ async function readData () {
 
 async function readPurposeUrl () {
   const bytesUrl = await etherPatronContract.methods.purpose.call()
-  const url = web3.utils.toAscii(bytesUrl)
-  $('#purpose-url').html(url)
+  const url = web3.utils.hexToUtf8(bytesUrl)
+  console.log('<a href="http://' + url + '" target="_blank" >' + url + '</a>')
+  $('#purpose-url').html('<a href="http://' + url + '" target="_blank" >' + url + '</a>')
   $('#donateModalTitle').html('Donate to ' + url)
   $('#refundModalTitle').html('Get refund from ' + url)
 }
@@ -82,6 +88,8 @@ async function readTimeProgress () {
 }
 
 async function readDonations () {
+  if (!mainAddress) return
+
   const totalDonated = await etherPatronContract.methods.getAllDonationsOfAddress(mainAddress).call()
   const ethDonated = web3.utils.fromWei(totalDonated.toString(), 'ether')
   console.log('Total donated ' + ethDonated)
@@ -104,6 +112,8 @@ async function donate () {
 }
 
 async function readRefund () {
+  if (!mainAddress) return
+
   const currentPeriod = await etherPatronContract.methods.getCurrentPeriod().call()
 
   let totalToRefund = new BN()

@@ -49,7 +49,7 @@
             <div class="grid">
               <div class="row justify-content-center m-4">
                 URL to website / Twitter / Twitch / Youtube
-                <input class="form-control" type="url" placeholder="etherpatron.com / www.etherpatron.com" id="purpose">   
+                <input class="form-control" type="url" placeholder="etherpatron.com / www.twitch.tv/username" id="purpose">   
                 <small class="form-text text-danger" id="urlWarning">Required</small>            
               </div>    
 
@@ -69,6 +69,9 @@
                   <input class="form-control" type="number" placeholder="0.5 ether" id="periodTarget" step="0.01">
                   <small class="form-text text-muted">Serves just to show period progress bar</small>
               </div>
+              <div class="row justify-content-center m-4  metaMaskError alert alert-danger d-none" role="alert" >                  
+                Requires MetaMask
+              </div>
             
                        
           </div>
@@ -81,7 +84,63 @@
      
     </div>
   </div>
+  <!-- Modal -->
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="info-modal" tabindex="-1" role="dialog" aria-labelledby="info-modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">   
+      
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">URLs to interact with your EtherPatron DApp:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">          
+   
+               
+          <div class="row justify-content-center mt-4">
+            Address for your patrons:   
+        </div>
+        <div class="row justify-content-center m-2">
+          <div class="alert alert-secondary " role="alert" id="interactUrl">
+            Waiting for contract deployment...
+          </div>    
+        </div>
+
+        <div class="row justify-content-center mt-4">
+          Admin address:   
+      </div>
+      <div class="row justify-content-center m-2" >
+        <div class="alert alert-secondary " role="alert" id="adminUrl">
+          Waiting for contract deployment...
+        </div>    
+      </div>
+                       
+          </div>
+        </div>     
+      </div>
+     
     </div>
+  </div>
+  <!-- Modal -->
+
+    </div>
+
+    <footer class="page-footer font-small blue fixed-bottom">
+
+     
+      <div class="text-right py-3 bg-light pr-5">
+        <a href="https://github.com/MartinKral/ether-patron" target="_blank">GitHub</a> | 
+        <a href="https://etherpatron.com/interact.html?address=TODO" target="_blank">Donate</a>
+      </div>
+
+
+      
+    
+    </footer>
 
     <script src="app.js"></script>
   </body>

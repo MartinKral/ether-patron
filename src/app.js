@@ -4,6 +4,7 @@ import 'bootstrap'
 import { getWeb3Instance, getMainAccount } from './utils/web3Wrapper'
 
 import etherPatronJson from '../build/contracts/EtherPatron.json'
+import { testAddress } from 'web3-utils'
 
 let web3
 let mainAddress
@@ -12,11 +13,7 @@ let etherPatronContract
 let days = 28
 let ethTarget = '0.5'
 
-$('#getYourOwn-modal').on('shown.bs.modal', function () {
-  init()
-})
-
-//
+init()
 
 $('#startTimestamp').attr('placeholder', getMondayTimeStamp().toString() + ' (This monday, 0:00 in your timezone)')
 $('#periodDuration').attr('placeholder', days.toString() + ' days')
@@ -29,6 +26,12 @@ $('#deployBtn').on('click', () => {
 async function init () {
   web3 = await getWeb3Instance()
   mainAddress = await getMainAccount(web3)
+
+  console.log('Main address ' + mainAddress)
+  if (!mainAddress) {
+    console.log('Length ' + $('.metaMaskError').length)
+    $('.metaMaskError').removeClass('d-none')
+  }
 
   linkContracts()
 }
@@ -63,8 +66,22 @@ function deploy () {
     arguments: [startTimeStamp, periodDuration, periodTarget, purpose]
   }).send({ from: mainAddress })
     .once('confirmation', function (confNumber, receipt) {
-      console.log('Confirmation ' + receipt.contractAddress.toString())
+      const contractAddress = receipt.contractAddress.toString()
+      const interactUrl = 'https://etherpatron.com/interact.html?address=' + contractAddress
+      const adminUrl = 'https://etherpatron.com/admin.html?address=' + contractAddress
+
+      $('#interactUrl').html('<a href="' + interactUrl + '" target="_blank">' + interactUrl + '</a>')
+      $('#adminUrl').html('<a href="' + adminUrl + '" target="_blank">' + adminUrl + '</a>')
+
+      $('#interactUrl').removeClass('alert-secondary')
+      $('#interactUrl').addClass('alert-success')
+
+      $('#adminUrl').removeClass('alert-secondary')
+      $('#adminUrl').addClass('alert-success')
     })
+
+  $('#getYourOwn-modal').modal('hide')
+  $('#info-modal').modal('show')
 }
 
 function removeHttp (url) {
