@@ -14,16 +14,24 @@ contract EtherPatron is Ownable {
 
     uint256 public lastWithdrawnPeriod = 0;   
     
-
-    using SafeMath for uint256;
+    address[] private donators;    
 
     mapping(uint256 => uint256) private periodToAllowedWithdrawal; 
     mapping(uint256 => uint256) private periodToDonations;
 
     mapping(bytes32 => uint256) private hashedDonations;
 
-    address[] private donators;
     mapping(address => bool) private addressToIsDonator;
+    
+    
+
+    event DonationEvent (
+        address donator,
+        uint256 donation,
+        uint8 periods
+    );
+
+    using SafeMath for uint256;
     
     constructor(uint256 _startTimestamp, uint256 _periodDuration, uint256 _periodTarget, bytes32 _purpose) public {
         startTimestamp = _startTimestamp;
@@ -50,6 +58,8 @@ contract EtherPatron is Ownable {
         }
 
         addDonatorToList();
+
+        emit DonationEvent(msg.sender, msg.value, _periods);
     }
 
     function cancelDonations(uint8 _periods) external {

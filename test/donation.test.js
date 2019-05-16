@@ -22,9 +22,20 @@ contract('Ether Donator', function (accounts) {
     const donatedInPeriod = 0
     const weiToDonate = new BN(web3.utils.toWei('0.01', 'ether'))
 
+    let txResult
+
     before(deployContract)
     it('donates for one period', async function () {
-      await this.contract.donate(periodsToDonate, { from: donatorAddress, value: weiToDonate })
+      txResult = await this.contract.donate(periodsToDonate, { from: donatorAddress, value: weiToDonate })
+    })
+
+    it('receives event', async function () {
+      const eventArgs = txResult.logs[0].args
+
+      assert.equal(eventArgs.donator, donatorAddress, 'Unexpected donator address')
+      expect(eventArgs.donation).to.eq.BN(weiToDonate)
+      assert.equal(eventArgs.periods, periodsToDonate, 'Unexpected periods count')
+      // expectEvent(txResult, 'GemsAddedEvent', { to: donatorAddress, donation: weiToDonate, periods: periodsToDonate })
     })
 
     it('checks the donation', async function () {

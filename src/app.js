@@ -4,7 +4,6 @@ import 'bootstrap'
 import { getWeb3Instance, getMainAccount } from './utils/web3Wrapper'
 
 import etherPatronJson from '../build/contracts/EtherPatron.json'
-import { testAddress } from 'web3-utils'
 
 let web3
 let mainAddress
