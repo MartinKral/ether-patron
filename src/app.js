@@ -12,11 +12,11 @@ let etherPatronContract
 let days = 28
 let ethTarget = '0.5'
 
-init()
-
 $('#startTimestamp').attr('placeholder', getMondayTimeStamp().toString() + ' (This monday, 0:00 in your timezone)')
 $('#periodDuration').attr('placeholder', days.toString() + ' days')
 $('#periodTarget').attr('placeholder', ethTarget + ' ether')
+
+init()
 
 $('#deployBtn').on('click', () => {
   deploy()

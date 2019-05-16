@@ -33,9 +33,8 @@ contract('Ether Donator', function (accounts) {
       const eventArgs = txResult.logs[0].args
 
       assert.equal(eventArgs.donator, donatorAddress, 'Unexpected donator address')
-      expect(eventArgs.donation).to.eq.BN(weiToDonate)
       assert.equal(eventArgs.periods, periodsToDonate, 'Unexpected periods count')
-      // expectEvent(txResult, 'GemsAddedEvent', { to: donatorAddress, donation: weiToDonate, periods: periodsToDonate })
+      expect(eventArgs.donation).to.eq.BN(weiToDonate)
     })
 
     it('checks the donation', async function () {
