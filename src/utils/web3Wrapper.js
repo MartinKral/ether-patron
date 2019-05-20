@@ -14,9 +14,10 @@ export async function getWeb3Instance () {
     web3 = new Web3(web3.currentProvider)
   } else {
     console.log('Infura node')
-    usingInfura = true
-    const rpcUrl = 'ropsten.infura.io/v3/119dddbcfe69465c830db6f165505bd3'
+    const rpcUrl = 'https://mainnet.infura.io/v3/119dddbcfe69465c830db6f165505bd3'
     web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl))
+
+    usingInfura = true
   }
   return web3
 }

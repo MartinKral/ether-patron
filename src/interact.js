@@ -26,7 +26,6 @@ $('#refundBtn').on('click', () => {
 async function init () {
   web3 = await getWeb3Instance()
   mainAddress = await getMainAccount(web3)
-
   if (!mainAddress) {
     console.log('Length ' + $('.metaMaskError').length)
     $('.metaMaskError').removeClass('d-none')
@@ -49,7 +48,9 @@ async function readData () {
 }
 
 async function readPurposeUrl () {
+  console.log('Read purpose url ' + etherPatronContract.methods.purpose)
   const bytesUrl = await etherPatronContract.methods.purpose.call()
+  console.log('Bytes url')
   const url = web3.utils.hexToUtf8(bytesUrl)
   console.log('<a href="http://' + url + '" target="_blank" >' + url + '</a>')
   $('#purpose-url').html('<a href="http://' + url + '" target="_blank" >' + url + '</a>')
